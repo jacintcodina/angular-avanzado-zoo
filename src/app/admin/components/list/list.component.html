@@ -1,0 +1,70 @@
+<div class="col-lg-12">
+    <h3>{{title}}</h3>
+
+    <div class="row">
+        <div class="col-lg-2">Buscar:</div>
+        <div class="col-lg-3">
+            <input type="text" [(ngModel)]="busqueda" />
+        </div>
+        <div class="label label-success" *ngIf="busqueda">
+                Termino de busqueda: <strong>{{busqueda}}</strong>
+        </div>
+
+    </div>
+    <br /> 
+
+    <table class="table table-hover">
+        <thead class="thead-default">
+            <tr>
+                <th>Nombre</th>
+                <th>Año</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let animal of animals | search: busqueda">
+                <td>{{animal.name}}</td>
+                <td>{{animal.year}}</td>
+                <td>
+                    <a [routerLink]="['/animal', animal._id]" class="btn btn-sm btn-success">                   
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                        Ver
+                    </a>
+                    
+                    <a [routerLink]="['/admin-panel/editar', animal._id]"  class="btn btn-sm btn-primary boto">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Editar
+                    </a>
+                    <a href="#myModal-{{animal._id}}" role="button" data-toggle="modal" class="btn btn-sm btn-danger boto">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        Eliminar
+                    </a>
+                    
+                    <!-- Modal que es crida desde mymodal amb id dinamico-->
+                    <div id="myModal-{{animal._id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Borrar animal</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                    <p>Seguro que quieres eliminar animal <strong>{{animal.name}}</strong></p>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" (click)="deleteAnimal(animal._id)">Borrar</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- Fi Modal -->
+
+
+                </td>                                
+            </tr>
+        </tbody>
+    </table>
+</div>
